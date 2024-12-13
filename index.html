@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code avec Caméra Arrière</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 30px;
+        }
+        video {
+            width: 300px;
+            height: auto;
+            border: 2px solid #ccc;
+            margin-top: 10px;
+        }
+        canvas {
+            margin-top: 20px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code pour "uyuyu55"</h1>
+    <div id="qrcode"></div>
+    <h2>Scanner avec la caméra arrière</h2>
+    <video id="camera" autoplay playsinline></video>
+
+    <script>
+        // Générer un QR Code pour "uyuyu55"
+        const text = "uyuyu55";
+        const qrCodeContainer = document.getElementById("qrcode");
+
+        QRCode.toCanvas(qrCodeContainer, text, { width: 150 }, function (error) {
+            if (error) console.error(error);
+            console.log("QR Code généré !");
+        });
+
+        // Activer la caméra arrière
+        const video = document.getElementById("camera");
+
+        navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { exact: "environment" } } // Caméra arrière
+        })
+        .then((stream) => {
+            video.srcObject = stream;
+            video.play();
+        })
+        .catch((error) => {
+            console.error("Erreur avec la caméra :", error);
+            alert("Impossible d'accéder à la caméra arrière.");
+        });
+    </script>
+</body>
+</html>
